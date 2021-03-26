@@ -163,7 +163,7 @@ function createNewBook(string $title, string $author, int $publicationDate, int 
  */
 function populateDatabase()
 {
-    $connection = connect();
+    $connection = connect(false);
     if (!is_object($connection) && isset($connection["error"])) {
         return $connection;
     }
