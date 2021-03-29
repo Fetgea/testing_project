@@ -6,7 +6,7 @@
  */
 
 function connect(bool $connectToDb = true)
- {
+{
     $ini = parse_ini_file("config.ini");
     $configErrors = [];
     if (!extension_loaded("mysqli")) {
