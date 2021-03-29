@@ -1,11 +1,11 @@
-<?php 
+<?php
 /**
  * Function connecting to database with hardcoded parameters
  * @param bool $connectToDb if true will use $db_name param from config in mysqli_connect
  * @return mixed connection object if connection sucessfull or false if not
  */
 
- function connect(bool $connectToDb = true)
+function connect(bool $connectToDb = true)
  {
     $ini = parse_ini_file("config.ini");
     $configErrors = [];
@@ -38,7 +38,7 @@
     } else {
         $connection = @mysqli_connect($ini["db_host"], $ini["db_user"], $ini["db_password"]);
     }
-    if (mysqli_connect_error()!= NULL) {
+    if (mysqli_connect_error() != NULL) {
         return ["error" => "DB Connection error: " . mysqli_connect_error()];
     }
     return $connection;
@@ -57,8 +57,8 @@ function getById(int $id)
         return $connection;
     }
     $query = "SELECT id, title, author, publication_date, number_pages FROM book WHERE id = ?";
-    if ($preparedQuery = mysqli_prepare($connection,$query)) {
-        mysqli_stmt_bind_param($preparedQuery,"i",$id);
+    if ($preparedQuery = mysqli_prepare($connection, $query)) {
+        mysqli_stmt_bind_param($preparedQuery, "i", $id);
         if (mysqli_stmt_execute($preparedQuery)) {
             $result = mysqli_stmt_get_result($preparedQuery);
             $arResult = mysqli_fetch_assoc($result);
@@ -88,11 +88,11 @@ function getAllBooks()
         return $connection;
     }
     $query = "SELECT id,title, author, publication_date, number_pages FROM book";
-    $preparedQuery = mysqli_prepare($connection,$query);
+    $preparedQuery = mysqli_prepare($connection, $query);
     if (!$preparedQuery) {
         return ["error" => mysqli_error($connection)];
     }
-    if(mysqli_stmt_execute($preparedQuery)) {
+    if (mysqli_stmt_execute($preparedQuery)) {
         $resultObj = mysqli_stmt_get_result($preparedQuery);
         while ($result = mysqli_fetch_assoc($resultObj)) {
             $arResult[] = $result;
@@ -172,7 +172,7 @@ function populateDatabase()
         return ["error" => "Cannot open file with sql queries"];
     }
     $errors = [];
-    if (mysqli_multi_query($connection, $sqlQueries)){
+    if (mysqli_multi_query($connection, $sqlQueries)) {
         if ($error = mysqli_error($connection)) {
             $errors[] = $error;
         }
@@ -191,5 +191,3 @@ function populateDatabase()
     }
     return ["error" => mysqli_error($connection)];
 }
-
-
