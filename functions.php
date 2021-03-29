@@ -87,7 +87,7 @@ function getAllBooks()
     if (!is_object($connection) && isset($connection["error"])) {
         return $connection;
     }
-    $query = "SELECT id,title, author, publication_date, number_pages FROM book";
+    $query = "SELECT id, title, author, publication_date, number_pages FROM book";
     $preparedQuery = mysqli_prepare($connection, $query);
     if (!$preparedQuery) {
         return ["error" => mysqli_error($connection)];
@@ -144,7 +144,7 @@ function createNewBook(string $title, string $author, int $publicationDate, int 
     if (!is_object($connection) && isset($connection["error"])) {
         return $connection;
     }
-    $query = "INSERT INTO book (title, author, publication_date, number_pages) VALUES (?,?,?,?)";
+    $query = "INSERT INTO book (title, author, publication_date, number_pages) VALUES (?, ?, ?, ?)";
     if ($preparedQuery = mysqli_prepare($connection, $query)) {
         mysqli_stmt_bind_param($preparedQuery, "sssi", $arArguments["title"], $arArguments["author"], $dateFormatted, $arArguments["number_of_pages"]);
         if (mysqli_stmt_execute($preparedQuery)) {
